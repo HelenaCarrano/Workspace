@@ -89,10 +89,10 @@ meu-workspace/
 | Arquivo | Para que serve | Onde instalar |
 |---|---|---|
 | `AGENTS.md` | Regras do workspace que o agente segue | raiz do seu workspace |
-| `claude/hooks/tarefa.js` | Hooks: contexto na abertura, troca de pasta, índice e cobrança do registro | `~/.claude/hooks/` |
-| `claude/hooks/tarefa.config.example.json` | Caminho do workspace e branches principais | `~/.claude/hooks/tarefa.config.json` |
-| `claude/settings.example.json` | Registro dos três hooks no Claude Code | mesclar em `~/.claude/settings.json` |
-| `claude/skills/tarefa/SKILL.md` | Skill `/tarefa` (iniciar, retomar, registrar, pendência, print, fechar, visão) | `~/.claude/skills/tarefa/` |
+| `agents/hooks/tarefa.js` | Hooks: contexto na abertura, troca de pasta, índice e cobrança do registro | `~/.claude/hooks/` |
+| `agents/hooks/tarefa.config.example.json` | Caminho do workspace e branches principais | `~/.claude/hooks/tarefa.config.json` |
+| `agents/settings.example.json` | Registro dos três hooks no Claude Code | mesclar em `~/.claude/settings.json` |
+| `agents/skills/tarefa/SKILL.md` | Skill `/tarefa` (iniciar, retomar, registrar, pendência, print, fechar, visão) | `~/.claude/skills/tarefa/` |
 | `templates/task.md`, `templates/sessions.md` | Modelos de documento da tarefa | consulta (a skill usa o mesmo formato) |
 
 ## Instalação
@@ -110,13 +110,13 @@ Requisitos: [Claude Code](https://claude.com/claude-code), Node.js 18+ e git.
 2. **Instale o hook e a skill**:
    ```bash
    mkdir -p ~/.claude/hooks ~/.claude/skills/tarefa
-   cp claude/hooks/tarefa.js ~/.claude/hooks/
-   cp claude/hooks/tarefa.config.example.json ~/.claude/hooks/tarefa.config.json
-   cp claude/skills/tarefa/SKILL.md ~/.claude/skills/tarefa/
+   cp agents/hooks/tarefa.js ~/.claude/hooks/
+   cp agents/hooks/tarefa.config.example.json ~/.claude/hooks/tarefa.config.json
+   cp agents/skills/tarefa/SKILL.md ~/.claude/skills/tarefa/
    ```
    Edite `~/.claude/hooks/tarefa.config.json` com o caminho do seu workspace. Use barras normais, inclusive no Windows: `C:/Users/voce/Projetos`.
 
-3. **Registre os hooks**: copie o bloco `hooks` de `claude/settings.example.json` para o seu `~/.claude/settings.json`, trocando `<HOME>` pelo caminho absoluto da sua pasta de usuário.
+3. **Registre os hooks**: copie o bloco `hooks` de `agents/settings.example.json` para o seu `~/.claude/settings.json`, trocando `<HOME>` pelo caminho absoluto da sua pasta de usuário.
 
 4. **Teste**: abra o Claude Code dentro do workspace e peça `/tarefa iniciar`. Depois de alguns turnos, abra `work/INDEX.md`.
 
