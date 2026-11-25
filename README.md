@@ -57,6 +57,8 @@ meu-workspace/
 - **Repos intocados**: nada de plano, print ou diário entra num repositório. Quando a tarefa fecha, só as decisões que ainda valem viram documentação no repo, num commit normal.
 - **Nomes padronizados** (`plan.md`, `test.md`, `study.md`...): sem `plano-final-v2-agora-vai.md`.
 
+- **PRs enxutos** com a `/limpeza`: antes do push, sai o que o agente deixou para trás (scripts de investigação, `console.log`, testes que não protegem nada, comentários óbvios, código morto, docs inchados).
+
 ### Nada se perde
 - **Registro obrigatório**: se a sessão mexeu em código e não registrou, o hook para o agente e pede o bloco no `sessions.md`. Uma vez por turno, sem laço.
 - **Pendências na hora**: achou um bug fora do escopo? Vai para "Pendências do projeto" sem parar a tarefa. Ao fechar, o que sobrou vai para o backlog permanente.
@@ -93,6 +95,7 @@ meu-workspace/
 | `agents/hooks/tarefa.config.example.json` | Caminho do workspace e branches principais | `~/.claude/hooks/tarefa.config.json` |
 | `agents/settings.example.json` | Registro dos três hooks no Claude Code | mesclar em `~/.claude/settings.json` |
 | `agents/skills/tarefa/SKILL.md` | Skill `/tarefa` (iniciar, retomar, registrar, pendência, print, fechar, visão) | `~/.claude/skills/tarefa/` |
+| `agents/skills/limpeza/SKILL.md` | Skill `/limpeza`: antes do push, limpa o que a branch vai levar (sobras de investigação, logs, testes e mocks inúteis, comentários óbvios, código morto, docs inchados, migrações duplicadas) sem mudar o comportamento | `~/.claude/skills/limpeza/` |
 | `templates/task.md`, `templates/sessions.md` | Modelos de documento da tarefa | consulta (a skill usa o mesmo formato) |
 
 ## Instalação
@@ -107,12 +110,13 @@ Requisitos: [Claude Code](https://claude.com/claude-code), Node.js 18+ e git.
    ```
    Ajuste a seção "Estrutura" do `AGENTS.md` aos seus repos.
 
-2. **Instale o hook e a skill**:
+2. **Instale o hook e as skills**:
    ```bash
-   mkdir -p ~/.claude/hooks ~/.claude/skills/tarefa
+   mkdir -p ~/.claude/hooks ~/.claude/skills/tarefa ~/.claude/skills/limpeza
    cp agents/hooks/tarefa.js ~/.claude/hooks/
    cp agents/hooks/tarefa.config.example.json ~/.claude/hooks/tarefa.config.json
    cp agents/skills/tarefa/SKILL.md ~/.claude/skills/tarefa/
+   cp agents/skills/limpeza/SKILL.md ~/.claude/skills/limpeza/
    ```
    Edite `~/.claude/hooks/tarefa.config.json` com o caminho do seu workspace. Use barras normais, inclusive no Windows: `C:/Users/voce/Projetos`.
 
@@ -128,7 +132,8 @@ Fora da pasta configurada, os hooks não fazem nada: outros projetos seus não s
 2. **Trabalhar**: a cada sessão nova na branch, o agente já recebe a `task.md` e sabe onde parou. Achou algo errado fora do escopo? Ele anota em "Pendências do projeto" e segue.
 3. **Encerrar a sessão**: o hook cobra o registro. O agente escreve o bloco no `sessions.md`, atualiza estado, próximo passo e pendências e guarda só os prints de evidência.
 4. **Ver tudo**: abra `work/INDEX.md` ou peça `/tarefa visao`.
-5. **Fechar**: `/tarefa fechar` leva as decisões para a documentação do repo e as pendências restantes para o backlog. A pasta fica em `work/` até você pedir a limpeza.
+5. **Antes do push**: `/limpeza`. O agente enxuga o que a branch vai levar e deixa as mudanças sem commit para você revisar, com um resumo do que saiu (linhas, arquivos, testes).
+6. **Fechar**: `/tarefa fechar` leva as decisões para a documentação do repo e as pendências restantes para o backlog. A pasta fica em `work/` até você pedir a limpeza.
 
 ## Como os hooks funcionam
 
