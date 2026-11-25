@@ -1,0 +1,13 @@
+{
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [{ "type": "command", "command": "node \"<HOME>/.claude/hooks/tarefa.js\" start", "timeout": 15 }] }
+    ],
+    "UserPromptSubmit": [
+      { "hooks": [{ "type": "command", "command": "node \"<HOME>/.claude/hooks/tarefa.js\" prompt", "timeout": 15 }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "node \"<HOME>/.claude/hooks/tarefa.js\" stop", "timeout": 15 }] }
+    ]
+  }
+}
